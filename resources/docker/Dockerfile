@@ -18,8 +18,8 @@ RUN make TAGS="timetzdata"
 # Pack
 FROM busybox AS package
 
-LABEL maintainer="Ashley Jeffs <ash.jeffs@redpanda.com>"
-LABEL org.opencontainers.image.source="https://github.com/redpanda-data/connect"
+LABEL maintainer="lunacrafts <lunacrafts@protonmail.com>"
+LABEL org.opencontainers.image.source="https://github.com/mirrorboards-forks/connect"
 
 WORKDIR /
 

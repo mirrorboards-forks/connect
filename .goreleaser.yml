@@ -61,7 +61,7 @@ archives:
 dist: target/dist
 release:
   github:
-    owner: redpanda-data
+    owner: mirrorboards-forks
     name: connect
   prerelease: auto
   disable: false
