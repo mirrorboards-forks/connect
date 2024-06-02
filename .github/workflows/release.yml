@@ -6,39 +6,39 @@ on:
       - 'v*'
 
 jobs:
-  goreleaser:
-    runs-on: ubuntu-latest
-    steps:
+  # goreleaser:
+  #   runs-on: ubuntu-latest
+  #   steps:
 
-    - name: Check Out Repo
-      uses: actions/checkout@v4
+  #   - name: Check Out Repo
+  #     uses: actions/checkout@v4
 
-    - name: Free up some disk space on ubuntu
-      if: ${{ runner.os == 'Linux' }}
-      run: |
-        # Workaround to provide additional free space for testing.
-        #   https://github.com/actions/virtual-environments/issues/2840
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /opt/ghc
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+  #   - name: Free up some disk space on ubuntu
+  #     if: ${{ runner.os == 'Linux' }}
+  #     run: |
+  #       # Workaround to provide additional free space for testing.
+  #       #   https://github.com/actions/virtual-environments/issues/2840
+  #       sudo rm -rf /usr/share/dotnet
+  #       sudo rm -rf /opt/ghc
+  #       sudo rm -rf "/usr/local/share/boost"
+  #       sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-    - name: Install Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: 1.22.x
-        check-latest: true
+  #   - name: Install Go
+  #     uses: actions/setup-go@v5
+  #     with:
+  #       go-version: 1.22.x
+  #       check-latest: true
 
-    - name: Release Notes
-      run: ./resources/scripts/release_notes.sh > ./release_notes.md
+  #   - name: Release Notes
+  #     run: ./resources/scripts/release_notes.sh > ./release_notes.md
 
-    - name: GoReleaser
-      uses: goreleaser/goreleaser-action@v5
-      with:
-        version: latest
-        args: release --release-notes=./release_notes.md --timeout 120m
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   - name: GoReleaser
+  #     uses: goreleaser/goreleaser-action@v5
+  #     with:
+  #       version: latest
+  #       args: release --release-notes=./release_notes.md --timeout 120m
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docker:
     runs-on: ubuntu-latest
@@ -86,6 +86,7 @@ jobs:
       with:
         context: ./
         file: ./resources/docker/Dockerfile.cgo
+        platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ steps.docker_meta_cgo.outputs.tags }}
 
@@ -100,12 +101,12 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
 
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: ./
-        file: ./resources/docker/Dockerfile
-        builder: ${{ steps.buildx.outputs.name }}
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: ${{ steps.docker_meta.outputs.tags }}
+    # - name: Build and push
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: ./
+    #     file: ./resources/docker/Dockerfile
+    #     builder: ${{ steps.buildx.outputs.name }}
+    #     platforms: linux/amd64,linux/arm64
+    #     push: true
+    #     tags: ${{ steps.docker_meta.outputs.tags }}
