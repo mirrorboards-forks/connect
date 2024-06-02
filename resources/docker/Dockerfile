@@ -16,7 +16,7 @@ COPY . /go/src/github.com/redpanda-data/connect/
 RUN make TAGS="timetzdata"
 
 # Pack
-FROM busybox AS package
+FROM oven/bun:debian
 
 LABEL maintainer="lunacrafts <lunacrafts@protonmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/mirrorboards-forks/connect"

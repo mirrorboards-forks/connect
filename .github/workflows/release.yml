@@ -86,7 +86,6 @@ jobs:
       with:
         context: ./
         file: ./resources/docker/Dockerfile.cgo
-        platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ steps.docker_meta_cgo.outputs.tags }}
 
@@ -101,12 +100,12 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
 
-    # - name: Build and push
-    #   uses: docker/build-push-action@v5
-    #   with:
-    #     context: ./
-    #     file: ./resources/docker/Dockerfile
-    #     builder: ${{ steps.buildx.outputs.name }}
-    #     platforms: linux/amd64,linux/arm64
-    #     push: true
-    #     tags: ${{ steps.docker_meta.outputs.tags }}
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: ./
+        file: ./resources/docker/Dockerfile
+        builder: ${{ steps.buildx.outputs.name }}
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.docker_meta.outputs.tags }}
