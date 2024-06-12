@@ -18,10 +18,18 @@ RUN make TAGS="timetzdata"
 # Pack
 FROM oven/bun:debian
 
+RUN pipx install poetry
+
 LABEL maintainer="lunacrafts <lunacrafts@protonmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/mirrorboards-forks/connect"
 
 WORKDIR /
+
+RUN apt update
+RUN apt install pipx
+RUN pipx ensurepath
+RUN pipx ensurepath --global
+RUN pipx install poetry
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /etc/passwd /etc/passwd
