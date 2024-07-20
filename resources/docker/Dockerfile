@@ -31,6 +31,9 @@ COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /go/src/github.com/redpanda-data/connect/target/bin/redpanda-connect .
 # COPY ./config/docker.yaml /connect.yaml
 
+COPY ./mirrorboards/streamwave.yaml /streamwave.yaml
+RUN mkdir /streams
+
 USER connect
 
 EXPOSE 4195
